@@ -1,0 +1,42 @@
+{
+  "name": "nostr-commerce-schema",
+  "version": "0.1.0",
+  "description": "TypeScript types and Zod schemas for Nostr e-commerce",
+  "author": "AceaSpades @ Conduit BTC",
+  "main": "dist/index.js",
+  "module": "dist/index.mjs",
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.mjs",
+      "require": "./dist/index.js"
+    }
+  },
+  "scripts": {
+    "build": "tsup src/index.ts --format esm,cjs --dts",
+    "test": "bun test",
+    "lint": "eslint src --ext .ts",
+    "prepublishOnly": "bun run build"
+  },
+  "keywords": [
+    "nostr",
+    "e-commerce",
+    "schema",
+    "zod",
+    "typescript"
+  ],
+  "license": "MPL-2.0",
+  "devDependencies": {
+    "@types/node": "^22.13.5",
+    "eslint": "^9.21.0",
+    "tsup": "^8.4.0",
+    "typescript": "^5.7.3"
+  },
+  "dependencies": {
+    "zod": "^3.24.2"
+  }
+}
