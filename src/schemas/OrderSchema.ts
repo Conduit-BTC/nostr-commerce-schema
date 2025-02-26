@@ -37,7 +37,7 @@ const ContactTagSchema = z.union([
 
 // Complete Order Message Schema
 export const OrderMessageSchema = z.object({
-    kind: z.literal(15),
+    kind: z.literal(16),
     tags: z.array(
         z.union([
             // Required tags
@@ -78,7 +78,7 @@ export const validateOrderEvent = (data: unknown) => {
 // Example usage:
 /*
 const orderData = {
-    kind: 15,
+    kind: 16,
     tags: [
         ["p", "1234..."], // merchant pubkey
         ["subject", "order-info"],
