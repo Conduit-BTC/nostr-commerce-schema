@@ -1,16 +1,15 @@
 
-type ShippingTag = ['shipping', `30406:${string}:${string}`]; // Shipping method; follows addressable format of "30406:<pubkey>:<d-tag>"
-type ShippingCollectionTag = ['shipping', `30405:${string}:${string}`]; // References to a product collection, in this case, shipping is inherited from the collection; follows addressable format of "30405:<pubkey>:<d-tag>"
+type ShippingTag = ['shipping', `30406:${string}:${string}`]; // ["shipping_option", "<30406|30405>:<pubkey>:<d-tag>", "<extra-cost>"] - Shipping options or collection, MAY appear multiple times
 type TypeTag = ['type', string]; // ["type", "simple" | "variable" | "variation"]
 
-type OptionalTag = string[] | ShippingTag | ShippingCollectionTag | TypeTag;
+type OptionalTag = string[] | ShippingTag | TypeTag;
 
 export type NostrProduct = {
     kind: 30402,
     tags: [
-        ['d', string], // Medusa Product ID
-        ['title', string],
-        ['price', string, string], // ["price", <amount>, <currency>]
+        ['d', string], // ["d", "<product identifier>"]
+        ['title', string], // ["title", "<product title>"]
+        ['price', string, string], // ["price", "<amount>", "<currency>", "<optional frequency>"]
         ...([OptionalTag] | OptionalTag[]) // Additional optional tags (zero or more)
     ],
     content: string // Note to the Merchant
