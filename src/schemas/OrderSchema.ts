@@ -1,15 +1,9 @@
 import { z } from "zod";
+import { addressableFormat, hexString } from "./commonSchemas";
 
-// Basic validation helpers
-const hexString = z.string()
-    .refine(val => /^[0-9a-f]{64}$/i.test(val), {
-        message: "Must be a 64-character hex string"
-    });
-
-const addressableFormat = z.string()
-    .refine(val => /^\d+:[0-9a-f]{64}:[a-zA-Z0-9_-]+$/i.test(val), {
-        message: "Must follow format: <kind>:<pubkey>:<d-tag>"
-    });
+// ===============================
+// Order (NIP-17, Kind: 16, type: 1) - Improved from provided schema
+// ===============================
 
 // Item Tag Schema
 const ItemTagSchema = z.tuple([
@@ -35,18 +29,24 @@ const ContactTagSchema = z.union([
     z.tuple([z.literal("email"), z.string().email()])
 ]);
 
-// Complete Order Message Schema
+// Complete Order Message Schema (Updated with proper type and amount)
 export const OrderMessageSchema = z.object({
     kind: z.literal(16),
     tags: z.array(
         z.union([
             // Required tags
             z.tuple([z.literal("p"), hexString]),
-            z.tuple([z.literal("subject"), z.literal("order-info")]),
-            z.tuple([z.literal("order"), z.string().uuid()]),
+            z.tuple([z.literal("subject"), z.string()]),
+            z.tuple([z.literal("type"), z.literal("1")]),
+            z.tuple([z.literal("order"), z.string()]),
+            z.tuple([
+                z.literal("amount"),
+                z.string().regex(/^\d+$/, "Must be an integer")
+            ]),
             ItemTagSchema,
+
+            // Optional tags
             ShippingTagSchema,
-            // Optional contact tags
             ContactTagSchema
         ])
     ).refine(
@@ -54,48 +54,16 @@ export const OrderMessageSchema = z.object({
             // Verify required tags are present
             const hasRequiredTags =
                 tags.some(tag => tag[0] === "p") &&
-                tags.some(tag => tag[0] === "subject" && tag[1] === "order-info") &&
+                tags.some(tag => tag[0] === "subject") &&
+                tags.some(tag => tag[0] === "type" && tag[1] === "1") &&
                 tags.some(tag => tag[0] === "order") &&
-                tags.some(tag => tag[0] === "item")
-            // tags.some(tag => tag[0] === "shipping"); // TODO: Uncomment when shipping is required
+                tags.some(tag => tag[0] === "amount") &&
+                tags.some(tag => tag[0] === "item");
             return hasRequiredTags;
         },
         {
-            message: "Missing required tags: p, subject, order, item, and shipping"
+            message: "Missing required tags: p, subject, type (1), order, amount, item"
         }
     ),
     content: z.string()
 });
-
-// Helper type for TypeScript
-export type OrderEvent = z.infer<typeof OrderMessageSchema>;
-
-// Validation function
-export const validateOrderEvent = (data: unknown) => {
-    return OrderMessageSchema.safeParse(data);
-};
-
-// Example usage:
-/*
-const orderData = {
-    kind: 16,
-    tags: [
-        ["p", "1234..."], // merchant pubkey
-        ["subject", "order-info"],
-        ["order", "123e4567-e89b-12d3-a456-426614174000"],
-        ["item", "30402:abcd...:product-1", 2],
-        ["shipping", "30406:efgh...:standard"],
-        ["address", "123 Main St"],
-        ["email", "customer@example.com"]
-    ],
-    content: "[Conduit Market Client] - [Order] - Please gift wrap"
-};
-
-const result = validateOrderMessage(orderData);
-if (result.success) {
-    // TypeScript knows this is an OrderMessage
-    const order: OrderMessage = result.data;
-} else {
-    console.error(result.error);
-}
-*/
