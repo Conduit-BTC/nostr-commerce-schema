@@ -1,3 +1,5 @@
+⚠️ This repo is under heavy development. If you encounter any issues, please open a PR! ⚠️
+
 # Nostr Commerce Schema
 
 ## Zod Schemas and Typescript Types for use with the [GammaMarkets Market Spec](https://github.com/GammaMarkets/market-spec)
