@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { addressableFormat, iso4217Currency } from "./commonSchemas";
+import { addressableFormat, iso4217Currency, iso8601Duration } from "./commonSchemas";
 import { geohash } from "./commonSchemas";
 
 // ===============================
@@ -11,11 +11,20 @@ const ProductIdTagSchema = z.tuple([z.literal("d"), z.string()]);
 const ProductTitleTagSchema = z.tuple([z.literal("title"), z.string()]);
 
 // Price tag with optional frequency
-const ProductPriceTagSchema = z.tuple([
-    z.literal("price"),
-    z.string().regex(/^\d+(\.\d+)?$/, "Must be a valid decimal number"),
-    iso4217Currency,
-    z.string().optional() // Optional frequency
+const ProductPriceTagSchema = z.union([
+    // Three-element array, sans-frequency
+    z.tuple([
+        z.literal("price"),
+        z.string().regex(/^\d+(\.\d+)?$/, "Must be a valid decimal number"),
+        iso4217Currency,
+    ]),
+    // Three-element array, with frequency
+    z.tuple([
+        z.literal("price"),
+        z.string().regex(/^\d+(\.\d+)?$/, "Must be a valid decimal number"),
+        iso4217Currency,
+        iso8601Duration.optional()
+    ])
 ]);
 
 // Optional Tags

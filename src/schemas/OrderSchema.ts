@@ -11,7 +11,7 @@ const ItemTagSchema = z.tuple([
     addressableFormat.refine(val => val.startsWith("30402:"), {
         message: "Item reference must start with 30402:"
     }),
-    z.number().int().positive()
+    z.number().int().positive() // Quantity
 ]);
 
 // Shipping Tag Schema
@@ -30,15 +30,15 @@ const ContactTagSchema = z.union([
 ]);
 
 // Complete Order Message Schema (Updated with proper type and amount)
-export const OrderMessageSchema = z.object({
+export const OrderSchema = z.object({
     kind: z.literal(16),
     tags: z.array(
         z.union([
             // Required tags
-            z.tuple([z.literal("p"), hexString]),
-            z.tuple([z.literal("subject"), z.string()]),
-            z.tuple([z.literal("type"), z.literal("1")]),
-            z.tuple([z.literal("order"), z.string()]),
+            z.tuple([z.literal("p"), hexString]), // Merchant's public key
+            z.tuple([z.literal("subject"), z.string()]), // Human-friendly subject line for order information
+            z.tuple([z.literal("type"), z.literal("1")]), // Order Creation = type 1
+            z.tuple([z.literal("order"), z.string()]), // Unique order identifier
             z.tuple([
                 z.literal("amount"),
                 z.string().regex(/^\d+$/, "Must be an integer")

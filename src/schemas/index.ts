@@ -1,6 +1,6 @@
 import { z } from "zod";
 import { GeneralCommunicationSchema } from "./DirectMessage";
-import { OrderMessageSchema } from "./OrderSchema";
+import { OrderSchema } from "./OrderSchema";
 import { OrderStatusUpdateSchema } from "./OrderStatusUpdateSchema";
 import { PaymentRequestSchema } from "./PaymentRequestSchema";
 import { ProductCollectionSchema } from "./ProductCollectionSchema";
@@ -14,7 +14,7 @@ import { ShippingUpdateSchema } from "./ShippingUpdateSchema";
 export type ProductListing = z.infer<typeof ProductListingSchema>;
 export type ProductCollection = z.infer<typeof ProductCollectionSchema>;
 export type ShippingOption = z.infer<typeof ShippingOptionSchema>;
-export type OrderEvent = z.infer<typeof OrderMessageSchema>;
+export type Order = z.infer<typeof OrderSchema>;
 export type PaymentRequest = z.infer<typeof PaymentRequestSchema>;
 export type OrderStatusUpdate = z.infer<typeof OrderStatusUpdateSchema>;
 export type ShippingUpdate = z.infer<typeof ShippingUpdateSchema>;
@@ -35,8 +35,8 @@ export const validateShippingOption = (data: unknown) => {
     return ShippingOptionSchema.safeParse(data);
 };
 
-export const validateOrderEvent = (data: unknown) => {
-    return OrderMessageSchema.safeParse(data);
+export const validateOrder = (data: unknown) => {
+    return OrderSchema.safeParse(data);
 };
 
 export const validatePaymentRequest = (data: unknown) => {
