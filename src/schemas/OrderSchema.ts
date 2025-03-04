@@ -11,7 +11,9 @@ const ItemTagSchema = z.tuple([
     addressableFormat.refine(val => val.startsWith("30402:"), {
         message: "Item reference must start with 30402:"
     }),
-    z.number().int().positive() // Quantity
+    z.string().regex(/^[1-9]\d*$/, {
+        message: "Must be a string containing a positive integer",
+    }) // Quantity
 ]);
 
 // Shipping Tag Schema
