@@ -1,6 +1,11 @@
 import { Order } from "../schemas";
+import { v4 as uuidv4 } from 'uuid';
 
 export const OrderUtils = {
+    generateOrderId: (merchantPubkey: string): string => {
+        return `${uuidv4().replace(/-/g, '')}`;
+    },
+
     getOrderId: (order: Order): string | null => {
         const orderTag = order.tags.find(tag => tag[0] === 'order');
         return orderTag && orderTag[1] ? orderTag[1] : null;
@@ -12,7 +17,7 @@ export const OrderUtils = {
     },
 
     getOrderItems: (order: Order): Array<{
-        productRef: string;
+        productRef: string; // From the "a" tag; "30402:<pubkey>:<d-tag>"
         quantity: number;
     }> => {
         return order.tags
@@ -21,6 +26,20 @@ export const OrderUtils = {
                 productRef: tag[1],
                 quantity: parseInt(tag[2], 10)
             }));
+    },
+
+    getProductIdFromOrderItem: (orderItem: {
+        productRef: string;
+        quantity: number;
+    }): string => {
+        return orderItem.productRef.split(':')[2];
+    },
+
+    getPubkeyFromOrderItem: (orderItem: {
+        productRef: string;
+        quantity: number;
+    }): string => {
+        return orderItem.productRef.split(':')[1];
     },
 
     getOrderShipping: (order: Order): string | null => {

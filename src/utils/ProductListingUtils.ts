@@ -1,6 +1,11 @@
 import { ProductListing } from "../schemas";
+import { v4 as uuidv4 } from 'uuid';
 
 export const ProductListingUtils = {
+    generateProductId: (merchantPubkey: string): string => {
+        return `30402:${merchantPubkey}:${uuidv4().replace(/-/g, '')}`;
+    },
+
     getProductId: (event: ProductListing): string | null => {
         const idTag = event.tags.find(tag => tag[0] === 'd');
         return idTag && idTag[1] ? idTag[1] : null;
