@@ -2,8 +2,8 @@ import { ProductListing } from "../schemas";
 import { v4 as uuidv4 } from 'uuid';
 
 export const ProductListingUtils = {
-    generateProductId: (merchantPubkey: string): string => {
-        return `30402:${merchantPubkey}:${uuidv4().replace(/-/g, '')}`;
+    generateProductId: (): string => {
+        return `product_id_${uuidv4().replace(/-/g, '')}`;
     },
 
     getProductId: (event: ProductListing): string | null => {

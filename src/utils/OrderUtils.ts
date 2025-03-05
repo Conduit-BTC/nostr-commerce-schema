@@ -2,8 +2,8 @@ import { Order } from "../schemas";
 import { v4 as uuidv4 } from 'uuid';
 
 export const OrderUtils = {
-    generateOrderId: (merchantPubkey: string): string => {
-        return `${uuidv4().replace(/-/g, '')}`;
+    generateOrderId: (): string => {
+        return `order_id_${uuidv4().replace(/-/g, '')}`;
     },
 
     getOrderId: (order: Order): string | null => {
