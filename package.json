@@ -20,7 +20,8 @@
     "build": "tsup src/index.ts --format esm,cjs --dts",
     "test": "bun test",
     "lint": "eslint src --ext .ts",
-    "prepublishOnly": "bun run build"
+    "prepublishOnly": "bun run build",
+    "gen-schemas": "bun run src/scripts/generateJsonSchemas.ts"
   },
   "keywords": [
     "nostr",
@@ -34,7 +35,8 @@
     "@types/node": "^22.13.5",
     "eslint": "^9.21.0",
     "tsup": "^8.4.0",
-    "typescript": "^5.7.3"
+    "typescript": "^5.7.3",
+    "zod-to-json-schema": "^3.24.3"
   },
   "dependencies": {
     "@nostr-dev-kit/ndk": "^2.12.0",
