@@ -1,0 +1,152 @@
+{
+  "$ref": "#/definitions/ShippingUpdate",
+  "definitions": {
+    "ShippingUpdate": {
+      "type": "object",
+      "properties": {
+        "kind": {
+          "type": "number",
+          "const": 16
+        },
+        "tags": {
+          "type": "array",
+          "items": {
+            "anyOf": [
+              {
+                "type": "array",
+                "minItems": 2,
+                "maxItems": 2,
+                "items": [
+                  {
+                    "type": "string",
+                    "const": "p"
+                  },
+                  {
+                    "type": "string",
+                    "pattern": "^[0-9a-f]{64}$"
+                  }
+                ]
+              },
+              {
+                "type": "array",
+                "minItems": 2,
+                "maxItems": 2,
+                "items": [
+                  {
+                    "type": "string",
+                    "const": "subject"
+                  },
+                  {
+                    "type": "string"
+                  }
+                ]
+              },
+              {
+                "type": "array",
+                "minItems": 2,
+                "maxItems": 2,
+                "items": [
+                  {
+                    "type": "string",
+                    "const": "type"
+                  },
+                  {
+                    "type": "string",
+                    "const": "4"
+                  }
+                ]
+              },
+              {
+                "type": "array",
+                "minItems": 2,
+                "maxItems": 2,
+                "items": [
+                  {
+                    "type": "string",
+                    "const": "order"
+                  },
+                  {
+                    "type": "string"
+                  }
+                ]
+              },
+              {
+                "type": "array",
+                "minItems": 2,
+                "maxItems": 2,
+                "items": [
+                  {
+                    "type": "string",
+                    "const": "status"
+                  },
+                  {
+                    "type": "string",
+                    "enum": [
+                      "processing",
+                      "shipped",
+                      "delivered",
+                      "exception"
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "array",
+                "minItems": 2,
+                "maxItems": 2,
+                "items": [
+                  {
+                    "type": "string",
+                    "const": "tracking"
+                  },
+                  {
+                    "type": "string"
+                  }
+                ]
+              },
+              {
+                "type": "array",
+                "minItems": 2,
+                "maxItems": 2,
+                "items": [
+                  {
+                    "type": "string",
+                    "const": "carrier"
+                  },
+                  {
+                    "type": "string"
+                  }
+                ]
+              },
+              {
+                "type": "array",
+                "minItems": 2,
+                "maxItems": 2,
+                "items": [
+                  {
+                    "type": "string",
+                    "const": "eta"
+                  },
+                  {
+                    "type": "string",
+                    "pattern": "^\\d+$"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "content": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "kind",
+        "tags",
+        "content"
+      ],
+      "additionalProperties": false
+    }
+  },
+  "$schema": "http://json-schema.org/draft-07/schema#"
+}

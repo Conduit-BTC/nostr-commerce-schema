@@ -1,0 +1,184 @@
+{
+  "$ref": "#/definitions/Order",
+  "definitions": {
+    "Order": {
+      "type": "object",
+      "properties": {
+        "kind": {
+          "type": "number",
+          "const": 16
+        },
+        "tags": {
+          "type": "array",
+          "items": {
+            "anyOf": [
+              {
+                "type": "array",
+                "minItems": 2,
+                "maxItems": 2,
+                "items": [
+                  {
+                    "type": "string",
+                    "const": "p"
+                  },
+                  {
+                    "type": "string",
+                    "pattern": "^[0-9a-f]{64}$"
+                  }
+                ]
+              },
+              {
+                "type": "array",
+                "minItems": 2,
+                "maxItems": 2,
+                "items": [
+                  {
+                    "type": "string",
+                    "const": "subject"
+                  },
+                  {
+                    "type": "string"
+                  }
+                ]
+              },
+              {
+                "type": "array",
+                "minItems": 2,
+                "maxItems": 2,
+                "items": [
+                  {
+                    "type": "string",
+                    "const": "type"
+                  },
+                  {
+                    "type": "string",
+                    "const": "1"
+                  }
+                ]
+              },
+              {
+                "type": "array",
+                "minItems": 2,
+                "maxItems": 2,
+                "items": [
+                  {
+                    "type": "string",
+                    "const": "order"
+                  },
+                  {
+                    "type": "string"
+                  }
+                ]
+              },
+              {
+                "type": "array",
+                "minItems": 2,
+                "maxItems": 2,
+                "items": [
+                  {
+                    "type": "string",
+                    "const": "amount"
+                  },
+                  {
+                    "type": "string",
+                    "pattern": "^\\d+$"
+                  }
+                ]
+              },
+              {
+                "type": "array",
+                "minItems": 3,
+                "maxItems": 3,
+                "items": [
+                  {
+                    "type": "string",
+                    "const": "item"
+                  },
+                  {
+                    "type": "string",
+                    "pattern": "^\\d+:[0-9a-f]{64}:[a-zA-Z0-9_-]+$"
+                  },
+                  {
+                    "type": "string",
+                    "pattern": "^[1-9]\\d*$"
+                  }
+                ]
+              },
+              {
+                "type": "array",
+                "minItems": 2,
+                "maxItems": 2,
+                "items": [
+                  {
+                    "type": "string",
+                    "const": "shipping"
+                  },
+                  {
+                    "$ref": "#/definitions/Order/properties/tags/items/anyOf/5/items/1"
+                  }
+                ]
+              },
+              {
+                "anyOf": [
+                  {
+                    "type": "array",
+                    "minItems": 2,
+                    "maxItems": 2,
+                    "items": [
+                      {
+                        "type": "string",
+                        "const": "address"
+                      },
+                      {
+                        "type": "string"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "array",
+                    "minItems": 2,
+                    "maxItems": 2,
+                    "items": [
+                      {
+                        "type": "string",
+                        "const": "phone"
+                      },
+                      {
+                        "type": "string"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "array",
+                    "minItems": 2,
+                    "maxItems": 2,
+                    "items": [
+                      {
+                        "type": "string",
+                        "const": "email"
+                      },
+                      {
+                        "type": "string",
+                        "format": "email"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "content": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "kind",
+        "tags",
+        "content"
+      ],
+      "additionalProperties": false
+    }
+  },
+  "$schema": "http://json-schema.org/draft-07/schema#"
+}

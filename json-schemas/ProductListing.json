@@ -1,0 +1,368 @@
+{
+  "$ref": "#/definitions/ProductListing",
+  "definitions": {
+    "ProductListing": {
+      "type": "object",
+      "properties": {
+        "kind": {
+          "type": "number",
+          "const": 30402
+        },
+        "created_at": {
+          "type": "integer",
+          "exclusiveMinimum": 0
+        },
+        "content": {
+          "type": "string"
+        },
+        "tags": {
+          "type": "array",
+          "items": {
+            "anyOf": [
+              {
+                "type": "array",
+                "minItems": 2,
+                "maxItems": 2,
+                "items": [
+                  {
+                    "type": "string",
+                    "const": "d"
+                  },
+                  {
+                    "type": "string"
+                  }
+                ]
+              },
+              {
+                "type": "array",
+                "minItems": 2,
+                "maxItems": 2,
+                "items": [
+                  {
+                    "type": "string",
+                    "const": "title"
+                  },
+                  {
+                    "type": "string"
+                  }
+                ]
+              },
+              {
+                "anyOf": [
+                  {
+                    "type": "array",
+                    "minItems": 3,
+                    "maxItems": 3,
+                    "items": [
+                      {
+                        "type": "string",
+                        "const": "price"
+                      },
+                      {
+                        "type": "string",
+                        "pattern": "^\\d+(\\.\\d+)?$"
+                      },
+                      {
+                        "type": "string",
+                        "pattern": "^[A-Z]{3}$"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "array",
+                    "minItems": 4,
+                    "maxItems": 4,
+                    "items": [
+                      {
+                        "type": "string",
+                        "const": "price"
+                      },
+                      {
+                        "type": "string",
+                        "pattern": "^\\d+(\\.\\d+)?$"
+                      },
+                      {
+                        "$ref": "#/definitions/ProductListing/properties/tags/items/anyOf/2/anyOf/0/items/2"
+                      },
+                      {
+                        "anyOf": [
+                          {
+                            "not": {}
+                          },
+                          {
+                            "type": "string",
+                            "enum": [
+                              "H",
+                              "D",
+                              "W",
+                              "M",
+                              "Y"
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "array",
+                "minItems": 3,
+                "maxItems": 3,
+                "items": [
+                  {
+                    "type": "string",
+                    "const": "type"
+                  },
+                  {
+                    "type": "string",
+                    "enum": [
+                      "simple",
+                      "variable",
+                      "variation"
+                    ]
+                  },
+                  {
+                    "type": "string",
+                    "enum": [
+                      "digital",
+                      "physical"
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "array",
+                "minItems": 2,
+                "maxItems": 2,
+                "items": [
+                  {
+                    "type": "string",
+                    "const": "visibility"
+                  },
+                  {
+                    "type": "string",
+                    "enum": [
+                      "hidden",
+                      "on-sale",
+                      "pre-order"
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "array",
+                "minItems": 2,
+                "maxItems": 2,
+                "items": [
+                  {
+                    "type": "string",
+                    "const": "stock"
+                  },
+                  {
+                    "type": "string",
+                    "pattern": "^\\d+$"
+                  }
+                ]
+              },
+              {
+                "type": "array",
+                "minItems": 2,
+                "maxItems": 2,
+                "items": [
+                  {
+                    "type": "string",
+                    "const": "summary"
+                  },
+                  {
+                    "type": "string"
+                  }
+                ]
+              },
+              {
+                "type": "array",
+                "minItems": 3,
+                "maxItems": 3,
+                "items": [
+                  {
+                    "type": "string",
+                    "const": "spec"
+                  },
+                  {
+                    "type": "string"
+                  },
+                  {
+                    "type": "string"
+                  }
+                ]
+              },
+              {
+                "type": "array",
+                "minItems": 4,
+                "maxItems": 4,
+                "items": [
+                  {
+                    "type": "string",
+                    "const": "image"
+                  },
+                  {
+                    "type": "string",
+                    "format": "uri"
+                  },
+                  {
+                    "anyOf": [
+                      {
+                        "not": {}
+                      },
+                      {
+                        "type": "string"
+                      }
+                    ]
+                  },
+                  {
+                    "anyOf": [
+                      {
+                        "not": {}
+                      },
+                      {
+                        "type": "string",
+                        "pattern": "^\\d+$"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "array",
+                "minItems": 3,
+                "maxItems": 3,
+                "items": [
+                  {
+                    "type": "string",
+                    "const": "weight"
+                  },
+                  {
+                    "type": "string",
+                    "pattern": "^\\d+(\\.\\d+)?$"
+                  },
+                  {
+                    "type": "string"
+                  }
+                ]
+              },
+              {
+                "type": "array",
+                "minItems": 3,
+                "maxItems": 3,
+                "items": [
+                  {
+                    "type": "string",
+                    "const": "dim"
+                  },
+                  {
+                    "type": "string",
+                    "pattern": "^\\d+(\\.\\d+)?x\\d+(\\.\\d+)?x\\d+(\\.\\d+)?$"
+                  },
+                  {
+                    "type": "string"
+                  }
+                ]
+              },
+              {
+                "type": "array",
+                "minItems": 2,
+                "maxItems": 2,
+                "items": [
+                  {
+                    "type": "string",
+                    "const": "location"
+                  },
+                  {
+                    "type": "string"
+                  }
+                ]
+              },
+              {
+                "type": "array",
+                "minItems": 2,
+                "maxItems": 2,
+                "items": [
+                  {
+                    "type": "string",
+                    "const": "g"
+                  },
+                  {
+                    "type": "string",
+                    "pattern": "^[0-9a-z]{1,12}$"
+                  }
+                ]
+              },
+              {
+                "type": "array",
+                "minItems": 2,
+                "maxItems": 2,
+                "items": [
+                  {
+                    "type": "string",
+                    "const": "t"
+                  },
+                  {
+                    "type": "string"
+                  }
+                ]
+              },
+              {
+                "type": "array",
+                "minItems": 2,
+                "maxItems": 2,
+                "items": [
+                  {
+                    "type": "string",
+                    "const": "a"
+                  },
+                  {
+                    "type": "string",
+                    "pattern": "^\\d+:[0-9a-f]{64}:[a-zA-Z0-9_-]+$"
+                  }
+                ]
+              },
+              {
+                "type": "array",
+                "minItems": 3,
+                "maxItems": 3,
+                "items": [
+                  {
+                    "type": "string",
+                    "const": "shipping_option"
+                  },
+                  {
+                    "$ref": "#/definitions/ProductListing/properties/tags/items/anyOf/14/items/1"
+                  },
+                  {
+                    "anyOf": [
+                      {
+                        "not": {}
+                      },
+                      {
+                        "type": "string",
+                        "pattern": "^\\d+(\\.\\d+)?$"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      },
+      "required": [
+        "kind",
+        "created_at",
+        "content",
+        "tags"
+      ],
+      "additionalProperties": false
+    }
+  },
+  "$schema": "http://json-schema.org/draft-07/schema#"
+}
