@@ -12,7 +12,7 @@ const PaymentRequestTypeTagSchema = z.tuple([z.literal("type"), z.literal("2")])
 const PaymentRequestOrderTagSchema = z.tuple([z.literal("order"), z.string()]);
 const PaymentRequestAmountTagSchema = z.tuple([
     z.literal("amount"),
-    z.string().regex(/^\d+$/, "Must be an integer")
+    z.string().regex(/^\d+(\.\d+)?$/, "Must be a string-wrapped number")
 ]);
 
 // Payment method tags
