@@ -1,3 +1,4 @@
+import { NostrEvent } from "@nostr-dev-kit/ndk";
 import { Order } from "../schemas";
 import { v4 as uuidv4 } from 'uuid';
 
@@ -139,5 +140,119 @@ export const OrderUtils = {
         }
 
         return tags;
+    },
+
+    /**
+ * Gets the order status text from an event
+ */
+    getOrderStatusText: (event: NostrEvent): string => {
+        const statusTag = event.tags.find(tag => tag[0] === 'status');
+        return statusTag && statusTag[1] ? statusTag[1] : 'unknown';
+    },
+
+    /**
+     * Gets the payment method from an event
+     */
+    getPaymentMethod: (event: NostrEvent): { type: string, value: string } | null => {
+        const paymentTag = event.tags.find(tag => tag[0] === 'payment');
+        if (paymentTag && paymentTag[1] && paymentTag[2]) {
+            return {
+                type: paymentTag[1],
+                value: paymentTag[2]
+            };
+        }
+        return null;
+    },
+
+    /**
+     * Formats a timestamp into a human-readable date
+     */
+    formatOrderTime: (timestamp: number): string => {
+        const date = new Date(timestamp * 1000);
+        return date.toLocaleString();
+    },
+
+    /**
+     * Gets shipping tracking info from a shipping update event
+     */
+    getTrackingInfo: (event: NostrEvent): {
+        tracking?: string,
+        carrier?: string,
+        eta?: Date
+    } => {
+        const trackingInfo: { tracking?: string, carrier?: string, eta?: Date } = {};
+
+        const trackingTag = event.tags.find(tag => tag[0] === 'tracking');
+        if (trackingTag && trackingTag[1]) {
+            trackingInfo.tracking = trackingTag[1];
+        }
+
+        const carrierTag = event.tags.find(tag => tag[0] === 'carrier');
+        if (carrierTag && carrierTag[1]) {
+            trackingInfo.carrier = carrierTag[1];
+        }
+
+        const etaTag = event.tags.find(tag => tag[0] === 'eta');
+        if (etaTag && etaTag[1]) {
+            const etaTimestamp = parseInt(etaTag[1], 10);
+            if (!isNaN(etaTimestamp)) {
+                trackingInfo.eta = new Date(etaTimestamp * 1000);
+            }
+        }
+
+        return trackingInfo;
+    },
+
+    /**
+     * Formats satoshi amount with commas and unit
+     */
+    formatSats: (sats: string | null): string => {
+        if (!sats) return '0 sats';
+        const numSats = parseInt(sats, 10);
+        if (isNaN(numSats)) return '0 sats';
+
+        return `${numSats.toLocaleString()} sats`;
+    },
+
+    /**
+     * Gets a human-readable summary of the order
+     */
+    getOrderSummary: (event: NostrEvent): string => {
+        try {
+            // For orders
+            if (event.tags.find(tag => tag[0] === 'type' && tag[1] === '1')) {
+                const items = event.tags.filter(tag => tag[0] === 'item');
+                return `Order with ${items.length} item${items.length !== 1 ? 's' : ''}`;
+            }
+
+            // For payment requests
+            if (event.tags.find(tag => tag[0] === 'type' && tag[1] === '2')) {
+                const amount = OrderUtils.getOrderAmount(event as unknown as Order);
+                return `Payment request for ${OrderUtils.formatSats(amount)}`;
+            }
+
+            // For status updates
+            if (event.tags.find(tag => tag[0] === 'type' && tag[1] === '3')) {
+                const status = OrderUtils.getOrderStatusText(event);
+                return `Status updated to: ${status}`;
+            }
+
+            // For shipping updates
+            if (event.tags.find(tag => tag[0] === 'type' && tag[1] === '4')) {
+                const status = OrderUtils.getOrderStatusText(event);
+                return `Shipping status: ${status}`;
+            }
+
+            // For receipts
+            if (event.kind === 17) {
+                const amount = OrderUtils.getOrderAmount(event as unknown as Order);
+                return `Payment receipt for ${OrderUtils.formatSats(amount)}`;
+            }
+
+            return 'Order notification';
+        } catch (err) {
+            console.error('Error generating order summary:', err);
+            return 'Order notification';
+        }
     }
 };
