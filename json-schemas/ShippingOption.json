@@ -167,11 +167,11 @@
                   },
                   {
                     "type": "string",
-                    "pattern": "^\\d+$"
+                    "pattern": "^\\d+(\\.\\d+)?$"
                   },
                   {
                     "type": "string",
-                    "pattern": "^\\d+$"
+                    "pattern": "^\\d+(\\.\\d+)?$"
                   },
                   {
                     "type": "string",

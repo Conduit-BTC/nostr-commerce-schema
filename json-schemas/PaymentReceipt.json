@@ -86,7 +86,7 @@
                   },
                   {
                     "type": "string",
-                    "pattern": "^\\d+$"
+                    "pattern": "^\\d+(\\.\\d+)?$"
                   }
                 ]
               }
