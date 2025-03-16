@@ -35,8 +35,8 @@ const ShippingRegionTagSchema = z.tuple([
 ]);
 const ShippingDurationTagSchema = z.tuple([
     z.literal("duration"),
-    z.string().regex(/^\d+$/, "Must be an integer"), // min
-    z.string().regex(/^\d+$/, "Must be an integer"), // max
+    z.string().regex(/^\d+(\.\d+)?$/, "Must be a string-wrapped number"), // min
+    z.string().regex(/^\d+(\.\d+)?$/, "Must be a string-wrapped number"), // max
     iso8601Duration // unit
 ]);
 const ShippingLocationTagSchema = z.tuple([

@@ -43,8 +43,7 @@ export const OrderSchema = z.object({
             z.tuple([z.literal("order"), z.string()]), // Unique order identifier
             z.tuple([
                 z.literal("amount"),
-                z.string().regex(/^\d+$/, "Must be an integer")
-            ]),
+                z.string().regex(/^\d+(\.\d+)?$/, "Must be a string-wrapped number")]),
             ItemTagSchema,
 
             // Optional tags

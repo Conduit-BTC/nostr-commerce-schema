@@ -10,8 +10,7 @@ const PaymentReceiptSubjectTagSchema = z.tuple([z.literal("subject"), z.string()
 const PaymentReceiptOrderTagSchema = z.tuple([z.literal("order"), z.string()]);
 const PaymentReceiptAmountTagSchema = z.tuple([
     z.literal("amount"),
-    z.string().regex(/^\d+$/, "Must be an integer")
-]);
+    z.string().regex(/^\d+(\.\d+)?$/, "Must be a string-wrapped number")]);
 
 // Payment proof tags
 const PaymentReceiptGenericPaymentTagSchema = z.tuple([

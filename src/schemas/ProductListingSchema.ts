@@ -41,8 +41,7 @@ const ProductVisibilityTagSchema = z.tuple([
 
 const ProductStockTagSchema = z.tuple([
     z.literal("stock"),
-    z.string().regex(/^\d+$/, "Must be an integer")
-]);
+    z.string().regex(/^\d+(\.\d+)?$/, "Must be a string-wrapped number")]);
 
 const ProductSummaryTagSchema = z.tuple([
     z.literal("summary"),
@@ -59,7 +58,7 @@ const ProductImageTagSchema = z.tuple([
     z.literal("image"),
     z.string().url(), // URL
     z.string().optional(), // Optional dimensions
-    z.string().regex(/^\d+$/, "Must be an integer").optional() // Optional sorting order
+    z.string().regex(/^\d+(\.\d+)?$/, "Must be a string-wrapped number").optional() // Optional sorting order
 ]);
 
 const ProductWeightTagSchema = z.tuple([
