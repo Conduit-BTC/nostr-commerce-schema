@@ -8,13 +8,13 @@
     "esModuleInterop": true,
     "outDir": "./dist",
     "skipLibCheck": true,
-    "forceConsistentCasingInFileNames": true
+    "forceConsistentCasingInFileNames": true,
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["src/*"]
+    }
   },
   "rootDir": "./",
-  "baseUrl": ".",
-  "paths": {
-    "@/*": ["src/*"]
-  },
   "include": ["src/**/*"],
   "exclude": ["node_modules", "dist", "**/*.test.ts"]
 }
