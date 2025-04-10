@@ -13,11 +13,10 @@ const ShippingPriceTagSchema = z.tuple([
     z.string().regex(/^\d+(\.\d+)?$/, "Must be a valid decimal number"),
     iso4217Currency
 ]);
-const ShippingCountryTagSchema = z.tuple([
-    z.literal("country"),
-    iso3166Country,
-    z.array(iso3166Country).optional()
-]);
+const ShippingCountryTagSchema = z.union([
+    z.tuple([z.literal("country"), iso3166Country]),
+    z.tuple([z.literal("country"), iso3166Country, z.array(iso3166Country)]),
+])
 const ShippingServiceTagSchema = z.tuple([
     z.literal("service"),
     z.enum(["standard", "express", "overnight", "pickup"])
@@ -28,11 +27,10 @@ const ShippingCarrierTagSchema = z.tuple([
     z.literal("carrier"),
     z.string()
 ]);
-const ShippingRegionTagSchema = z.tuple([
-    z.literal("region"),
-    iso3166Region,
-    z.array(iso3166Region).optional()
-]);
+const ShippingRegionTagSchema = z.union([
+    z.tuple([z.literal("region"), iso3166Region]),
+    z.tuple([z.literal("region"), iso3166Region, z.array(iso3166Region)]),
+])
 const ShippingDurationTagSchema = z.tuple([
     z.literal("duration"),
     z.string().regex(/^\d+(\.\d+)?$/, "Must be a string-wrapped number"), // min
