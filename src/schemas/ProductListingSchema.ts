@@ -98,15 +98,22 @@ const ProductReferenceTagSchema = z.tuple([
     )
 ]);
 
-const ProductShippingOptionTagSchema = z.tuple([
-    z.literal("shipping_option"),
-    addressableFormat.refine(
-        val => val.startsWith("30406:") || val.startsWith("30405:"),
-        {
-            message: "Shipping option reference must start with 30406: or 30405:"
-        }
-    ),
-    z.string().regex(/^\d+(\.\d+)?$/, "Must be a valid decimal number").optional() // Optional extra cost
+const ProductShippingOptionTagSchema = z.union([
+    z.tuple([
+        z.literal("shipping_option"),
+        addressableFormat.refine(
+            val => val.startsWith("30406:") || val.startsWith("30405:"),
+            { message: "Shipping option reference must start with 30406: or 30405:" }
+        )
+    ]),
+    z.tuple([
+        z.literal("shipping_option"),
+        addressableFormat.refine(
+            val => val.startsWith("30406:") || val.startsWith("30405:"),
+            { message: "Shipping option reference must start with 30406: or 30405:" }
+        ),
+        z.string().regex(/^\d+(\.\d+)?$/, "Must be a valid decimal number")
+    ])
 ]);
 
 // Complete Product Listing Schema

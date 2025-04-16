@@ -116,6 +116,14 @@ export const ProductListingUtils = {
             .map(tag => tag[1]);
     },
 
+    getProductShippingOptions: (event: ProductListing): { reference: string, extraCost?: string }[] => {
+        return event.tags
+            .filter(tag => tag[0] === 'shipping_option')
+            .map(tag =>
+                tag.length > 2 ? { reference: tag[1] } : { reference: tag[1], extraCost: tag[2] }
+            )
+    },
+
     createProductTags: (data: {
         id: string;
         title: string;
@@ -129,6 +137,7 @@ export const ProductListingUtils = {
         weight?: { value: string; unit: string };
         dimensions?: { dimensions: string; unit: string };
         categories?: string[];
+        shippingOptions?: { reference: string, extraCost?: string }[];
     }): string[][] => {
         const tags: string[][] = [];
 
@@ -191,6 +200,14 @@ export const ProductListingUtils = {
             data.categories.forEach(category => {
                 tags.push(['t', category]);
             });
+        }
+
+        if (data.shippingOptions) {
+            data.shippingOptions.forEach(option => {
+                const optionsTag = ['shipping_option', option.reference];
+                if (option.extraCost) optionsTag.push(option.extraCost);
+                tags.push(optionsTag);
+            })
         }
 
         return tags;
