@@ -1,4 +1,5 @@
 import { ProductListing, ShippingOption } from "@/schemas";
+import NDK, { NDKEvent, NDKKind } from "@nostr-dev-kit/ndk";
 
 export const ShippingOptionUtils = {
     getShippingOptionId: (event: ShippingOption): string | null => {
@@ -31,5 +32,31 @@ export const ShippingOptionUtils = {
     getShippingOptionService: (event: ShippingOption): string | null => {
         const serviceTag = event.tags.find(tag => tag[0] === 'service');
         return serviceTag && serviceTag[1] ? serviceTag[1] : null;
+    },
+
+    fetchShippingOptionEvent: async (id: string, pubkey: string, ndk: NDK): Promise<NDKEvent | null> => {
+        try {
+            return await new Promise((resolve, _) => {
+                const subscription = ndk.subscribe({
+                    kinds: [30406 as NDKKind],
+                    authors: [pubkey],
+                    "#d": [id],
+                    limit: 1
+                });
+
+                subscription.on("event", (event: NDKEvent) => {
+                    resolve(event);
+                    subscription.stop();
+                });
+
+                setTimeout(() => {
+                    resolve(null);
+                    subscription.stop();
+                }, 5000);
+            });
+        } catch (error) {
+            console.error("Failed to fetch referenced event:", error);
+            return null;
+        }
     }
 }
