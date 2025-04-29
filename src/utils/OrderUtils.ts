@@ -1,5 +1,5 @@
 import { NostrEvent } from "@nostr-dev-kit/ndk";
-import { Order } from "../schemas";
+import { Order, OrderAddress } from "../schemas";
 import { v4 as uuidv4 } from 'uuid';
 
 export const OrderUtils = {
@@ -254,5 +254,27 @@ export const OrderUtils = {
             console.error('Error generating order summary:', err);
             return 'Order notification';
         }
+    },
+
+    parseAddressString(address: string): OrderAddress {
+        let parsed: Partial<OrderAddress> = {};
+
+        try {
+            const json = JSON.parse(address);
+            parsed = typeof json === 'object' && json !== null ? json : {};
+        } catch {
+            // Ignore parse errors; will default all fields to null
+        }
+
+        return {
+            name: parsed.name ?? null,
+            street1: parsed.street1 ?? null,
+            street2: parsed.street2 ?? null,
+            city: parsed.city ?? null,
+            state: parsed.state ?? null,
+            country: parsed.country ?? null,
+            zip: parsed.zip ?? null,
+            note: parsed.note ?? null,
+        };
     }
 };

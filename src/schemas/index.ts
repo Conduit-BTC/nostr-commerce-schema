@@ -21,6 +21,16 @@ export type ShippingUpdate = z.infer<typeof ShippingUpdateSchema>;
 export type GeneralCommunication = z.infer<typeof GeneralCommunicationSchema>;
 export type PaymentReceipt = z.infer<typeof PaymentReceiptSchema>;
 export type ProductReview = z.infer<typeof ProductReviewSchema>;
+export type OrderAddress = {
+    name: string | null;
+    street1: string | null;
+    street2: string | null;
+    city: string | null;
+    state: string | null;
+    country: string | null;
+    zip: string | null;
+    note: string | null;
+};
 
 // Validation functions
 export const validateProductListing = (data: unknown) => {
