@@ -3,7 +3,7 @@ import { NDKEvent, NDKPrivateKeySigner } from "@nostr-dev-kit/ndk";
 import { ProductListingSchema } from "@/schemas/ProductListingSchema";
 
 export const ProductListingMocks = {
-  async generateArray(number: number) {
+  async generateEventsArray(number: number) {
     const results = [];
 
     for (let i = 0; i < number; i++) {
@@ -102,6 +102,9 @@ export const ProductListingMocks = {
   getPrivateKeys() {
     return staticPrivateKeys;
   },
+  getEventsArray() {
+    return staticEvents;
+  },
 };
 
 const productListingTemplate = {
@@ -126,4 +129,142 @@ const staticPrivateKeys = [
   "a7b78835cbb13b25cb442cf6e40ad33a020c96dff671700e8b5e7d94fac68d08",
   "dfb6d9013a454df96a307ec57c128c1dea068b3858fd95f2441694c5fdb34daa",
   "c5b4ec464b188828b1327d8ff17e90292392245f7d6fba62029eaf427748ed03",
+];
+
+const staticEvents = [
+  {
+    kind: 30402,
+    created_at: 1746687996,
+    content: "",
+    tags: [
+      ["d", "product_id_a37746aa416041a4a9221741b10ca5ec"],
+      ["title", "Synthdragon Sunglasses"],
+      ["price", "49.49", "USD"],
+      ["type", "simple", "physical"],
+      ["visibility", "on-sale"],
+      ["stock", "50"],
+      ["summary", "A great product to use as an example."],
+      ["spec", "material", "Moondust, Starglass, polyester"],
+      ["spec", "warranty", "200 years"],
+      ["image", "https://example.com/image1.jpg", "800x600", "0"],
+      ["image", "https://example.com/image2.jpg", "800x600", "1"],
+      ["weight", "1.2", "kg"],
+      ["dim", "10.0x20.0x30.0", "cm"],
+      ["t", "example"],
+      ["t", "mock"],
+      [
+        "shipping_option",
+        "30406:5f73cd4ae6a9d8f98c0dc23fc1d48d38e52f4a9fd7981ea4af99d938ea20c689:d-product_id_a37746aa416041a4a9221741b10ca5ec",
+        "5.00",
+      ],
+    ],
+  },
+  {
+    kind: 30402,
+    created_at: 1746687996,
+    content: "",
+    tags: [
+      ["d", "product_id_2d4e2caea9dd4ac1860220f27d939d30"],
+      ["title", "Synthdragon Sunglasses"],
+      ["price", "49.49", "USD"],
+      ["type", "simple", "physical"],
+      ["visibility", "on-sale"],
+      ["stock", "50"],
+      ["summary", "A great product to use as an example."],
+      ["spec", "material", "Moondust, Starglass, polyester"],
+      ["spec", "warranty", "200 years"],
+      ["image", "https://example.com/image1.jpg", "800x600", "0"],
+      ["image", "https://example.com/image2.jpg", "800x600", "1"],
+      ["weight", "1.2", "kg"],
+      ["dim", "10.0x20.0x30.0", "cm"],
+      ["t", "example"],
+      ["t", "mock"],
+      [
+        "shipping_option",
+        "30406:c5311fa79cdbb669ab9bf98f7dcb3cc468988143e68b0781904bdf5718d67fdc:d-product_id_2d4e2caea9dd4ac1860220f27d939d30",
+        "5.00",
+      ],
+    ],
+  },
+  {
+    kind: 30402,
+    created_at: 1746687996,
+    content: "",
+    tags: [
+      ["d", "product_id_92b21c695786413785b3397fd2c6263d"],
+      ["title", "Synthdragon Sunglasses"],
+      ["price", "49.49", "USD"],
+      ["type", "simple", "physical"],
+      ["visibility", "on-sale"],
+      ["stock", "50"],
+      ["summary", "A great product to use as an example."],
+      ["spec", "material", "Moondust, Starglass, polyester"],
+      ["spec", "warranty", "200 years"],
+      ["image", "https://example.com/image1.jpg", "800x600", "0"],
+      ["image", "https://example.com/image2.jpg", "800x600", "1"],
+      ["weight", "1.2", "kg"],
+      ["dim", "10.0x20.0x30.0", "cm"],
+      ["t", "example"],
+      ["t", "mock"],
+      [
+        "shipping_option",
+        "30406:524ccadf867d9e0abc357bc4e272bb212a5441601eaedec9b72e260a0fe0d0c4:d-product_id_92b21c695786413785b3397fd2c6263d",
+        "5.00",
+      ],
+    ],
+  },
+  {
+    kind: 30402,
+    created_at: 1746687996,
+    content: "",
+    tags: [
+      ["d", "product_id_6cefb7d302474d33963d82138c854e45"],
+      ["title", "Synthdragon Sunglasses"],
+      ["price", "49.49", "USD"],
+      ["type", "simple", "physical"],
+      ["visibility", "on-sale"],
+      ["stock", "50"],
+      ["summary", "A great product to use as an example."],
+      ["spec", "material", "Moondust, Starglass, polyester"],
+      ["spec", "warranty", "200 years"],
+      ["image", "https://example.com/image1.jpg", "800x600", "0"],
+      ["image", "https://example.com/image2.jpg", "800x600", "1"],
+      ["weight", "1.2", "kg"],
+      ["dim", "10.0x20.0x30.0", "cm"],
+      ["t", "example"],
+      ["t", "mock"],
+      [
+        "shipping_option",
+        "30406:aa66156a055f18f31e9409ddc2db1c43120cc62cc57b080f6ceb0920517a5fde:d-product_id_6cefb7d302474d33963d82138c854e45",
+        "5.00",
+      ],
+    ],
+  },
+  {
+    kind: 30402,
+    created_at: 1746687996,
+    content: "",
+    tags: [
+      ["d", "product_id_1bfc2c99e3ef47eca38bb426414d6b0d"],
+      ["title", "Synthdragon Sunglasses"],
+      ["price", "49.49", "USD"],
+      ["type", "simple", "physical"],
+      ["visibility", "on-sale"],
+      ["stock", "50"],
+      ["summary", "A great product to use as an example."],
+      ["spec", "material", "Moondust, Starglass, polyester"],
+      ["spec", "warranty", "200 years"],
+      ["image", "https://example.com/image1.jpg", "800x600", "0"],
+      ["image", "https://example.com/image2.jpg", "800x600", "1"],
+      ["weight", "1.2", "kg"],
+      ["dim", "10.0x20.0x30.0", "cm"],
+      ["t", "example"],
+      ["t", "mock"],
+      [
+        "shipping_option",
+        "30406:5f73cd4ae6a9d8f98c0dc23fc1d48d38e52f4a9fd7981ea4af99d938ea20c689:d-product_id_1bfc2c99e3ef47eca38bb426414d6b0d",
+        "5.00",
+      ],
+    ],
+  },
 ];
