@@ -24,9 +24,9 @@
 6. Navigate to your project directory.
 7. Run `<package_manager> link nostr-commerce-schema`, replacing `<package_manager>` with `npm`, `yarn`, or `bun`.
 8. Import
-   [types](https://github.com/Conduit-BTC/nostr-commerce-schema/blob/eabf91057596ed12f3087fac36d5b622d1fc8ff7/src/schemas/index.ts#L14-L23)
+   [types](https://github.com/Conduit-BTC/nostr-commerce-schema/blob/main/src/schemas/index.ts#L14-L23)
    or
-   [validation functions](https://github.com/Conduit-BTC/nostr-commerce-schema/blob/eabf91057596ed12f3087fac36d5b622d1fc8ff7/src/schemas/index.ts#L26-L64)
+   [validation functions](https://github.com/Conduit-BTC/nostr-commerce-schema/blob/main/src/schemas/index.ts#L26-L64)
    wherever Marketplace events **exist** in your project.
 
 That's it!
