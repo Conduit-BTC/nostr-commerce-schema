@@ -1,5 +1,5 @@
 import { v4 as uuidv4 } from "uuid";
-import { NDKEvent, NDKPrivateKeySigner, NDKSigner } from "@nostr-dev-kit/ndk";
+import { NDKEvent, NDKPrivateKeySigner } from "@nostr-dev-kit/ndk";
 import { ProductListingSchema } from "@/schemas/ProductListingSchema";
 
 export const ProductListingMocks = {
@@ -9,15 +9,44 @@ export const ProductListingMocks = {
     for (let i = 0; i < number; i++) {
       const id = `product_id_${uuidv4().replace(/-/g, "")}`;
       const created_at = Math.floor(Date.now() / 1000);
+
+      const priceTag: any[] = [
+        "price",
+        productListingTemplate.price.amount,
+        productListingTemplate.price.currency,
+      ];
+
+      const imageTags = productListingTemplate.images.map((img) => {
+        const tag: [string, string, ...string[]] = ["image", img.url];
+        if (img.dimensions) tag.push(img.dimensions);
+        if (img.order !== undefined) tag.push(img.order.toString());
+        return tag;
+      });
+
+      const privkey = staticPrivateKeys[i % staticPrivateKeys.length];
+      const signer = new NDKPrivateKeySigner(privkey);
+
+      const event = new NDKEvent();
+      event.kind = 30402;
+      event.created_at = created_at;
+      event.content = "";
+
+      // Temporarily assign empty tags to allow signing
+      event.tags = [["d", id]];
+
+      await event.sign(signer);
+      const pubkey = (await signer.user()).pubkey;
+
+      const dynamicShippingOption = [
+        "shipping_option",
+        `30406:${pubkey}:d-${id}`,
+        "5.00",
+      ];
+
       const tags = [
         ["d", id],
         ["title", productListingTemplate.title],
-        [
-          "price",
-          productListingTemplate.price.amount,
-          productListingTemplate.price.currency,
-          productListingTemplate.price.frequency,
-        ],
+        priceTag,
         [
           "type",
           productListingTemplate.type.type,
@@ -31,12 +60,7 @@ export const ProductListingMocks = {
           k,
           v,
         ]),
-        ...productListingTemplate.images.map((img) => [
-          "image",
-          img.url,
-          img.dimensions,
-          img.order.toString(),
-        ]),
+        ...imageTags,
         [
           "weight",
           productListingTemplate.weight.value,
@@ -48,24 +72,11 @@ export const ProductListingMocks = {
           productListingTemplate.dimensions.unit,
         ],
         ...productListingTemplate.categories.map((cat) => ["t", cat]),
-        ...productListingTemplate.shippingOptions.map((opt) => [
-          "shipping_option",
-          opt.reference,
-          opt.extraCost,
-        ]),
+        dynamicShippingOption,
       ];
 
-      const event = new NDKEvent();
-      event.kind = 30402;
-      event.created_at = created_at;
-      event.content = "";
       event.tags = tags;
 
-      const privkey = staticPrivateKeys[i % staticPrivateKeys.length];
-      const signer = new NDKPrivateKeySigner(privkey);
-      await event.sign(signer);
-
-      // Validate with schema (optional, for development only)
       const parsed = ProductListingSchema.safeParse({
         kind: event.kind,
         created_at: event.created_at,
@@ -83,18 +94,19 @@ export const ProductListingMocks = {
 
     return results;
   },
+
   getTemplate() {
     return productListingTemplate;
   },
+
   getPrivateKeys() {
     return staticPrivateKeys;
   },
 };
 
-// Template for cloning non-unique values
 const productListingTemplate = {
   title: "Synthdragon Sunglasses",
-  price: { amount: "49.49", currency: "USD", frequency: "P1M" },
+  price: { amount: "49.49", currency: "USD" },
   type: { type: "simple", physicalType: "physical" },
   visibility: "on-sale",
   stock: 50,
@@ -107,7 +119,6 @@ const productListingTemplate = {
   weight: { value: "1.2", unit: "kg" },
   dimensions: { dimensions: "10.0x20.0x30.0", unit: "cm" },
   categories: ["example", "mock"],
-  shippingOptions: [{ reference: "30406:abc123def4567890", extraCost: "5.00" }],
 };
 
 const staticPrivateKeys = [
