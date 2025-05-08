@@ -2,33 +2,8 @@ import { v4 as uuidv4 } from "uuid";
 import { NDKEvent, NDKPrivateKeySigner, NDKSigner } from "@nostr-dev-kit/ndk";
 import { ProductListingSchema } from "@/schemas/ProductListingSchema";
 
-// Template for cloning non-unique values
-const productTemplate = {
-  title: "Synthdragon Sunglasses",
-  price: { amount: "49.49", currency: "USD", frequency: "P1M" },
-  type: { type: "simple", physicalType: "physical" },
-  visibility: "on-sale",
-  stock: 50,
-  summary: "A great product to use as an example.",
-  specs: { material: "Moondust, Starglass, polyester", warranty: "200 years" },
-  images: [
-    { url: "https://example.com/image1.jpg", dimensions: "800x600", order: 0 },
-    { url: "https://example.com/image2.jpg", dimensions: "800x600", order: 1 },
-  ],
-  weight: { value: "1.2", unit: "kg" },
-  dimensions: { dimensions: "10.0x20.0x30.0", unit: "cm" },
-  categories: ["example", "mock"],
-  shippingOptions: [{ reference: "30406:abc123def4567890", extraCost: "5.00" }],
-};
-
-const staticPrivateKeys = [
-  "nsec1qqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqpl2sx",
-  "nsec1qqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq7az27",
-  "nsec1qqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqkzqx0",
-];
-
 export const ProductListingMocks = {
-  async get(number: number) {
+  async generateArray(number: number) {
     const results = [];
 
     for (let i = 0; i < number; i++) {
@@ -36,36 +11,44 @@ export const ProductListingMocks = {
       const created_at = Math.floor(Date.now() / 1000);
       const tags = [
         ["d", id],
-        ["title", productTemplate.title],
+        ["title", productListingTemplate.title],
         [
           "price",
-          productTemplate.price.amount,
-          productTemplate.price.currency,
-          productTemplate.price.frequency,
+          productListingTemplate.price.amount,
+          productListingTemplate.price.currency,
+          productListingTemplate.price.frequency,
         ],
-        ["type", productTemplate.type.type, productTemplate.type.physicalType],
-        ["visibility", productTemplate.visibility],
-        ["stock", productTemplate.stock.toString()],
-        ["summary", productTemplate.summary],
-        ...Object.entries(productTemplate.specs).map(([k, v]) => [
+        [
+          "type",
+          productListingTemplate.type.type,
+          productListingTemplate.type.physicalType,
+        ],
+        ["visibility", productListingTemplate.visibility],
+        ["stock", productListingTemplate.stock.toString()],
+        ["summary", productListingTemplate.summary],
+        ...Object.entries(productListingTemplate.specs).map(([k, v]) => [
           "spec",
           k,
           v,
         ]),
-        ...productTemplate.images.map((img) => [
+        ...productListingTemplate.images.map((img) => [
           "image",
           img.url,
           img.dimensions,
           img.order.toString(),
         ]),
-        ["weight", productTemplate.weight.value, productTemplate.weight.unit],
+        [
+          "weight",
+          productListingTemplate.weight.value,
+          productListingTemplate.weight.unit,
+        ],
         [
           "dim",
-          productTemplate.dimensions.dimensions,
-          productTemplate.dimensions.unit,
+          productListingTemplate.dimensions.dimensions,
+          productListingTemplate.dimensions.unit,
         ],
-        ...productTemplate.categories.map((cat) => ["t", cat]),
-        ...productTemplate.shippingOptions.map((opt) => [
+        ...productListingTemplate.categories.map((cat) => ["t", cat]),
+        ...productListingTemplate.shippingOptions.map((opt) => [
           "shipping_option",
           opt.reference,
           opt.extraCost,
@@ -100,4 +83,35 @@ export const ProductListingMocks = {
 
     return results;
   },
+  getTemplate() {
+    return productListingTemplate;
+  },
+  getPrivateKeys() {
+    return staticPrivateKeys;
+  },
 };
+
+// Template for cloning non-unique values
+const productListingTemplate = {
+  title: "Synthdragon Sunglasses",
+  price: { amount: "49.49", currency: "USD", frequency: "P1M" },
+  type: { type: "simple", physicalType: "physical" },
+  visibility: "on-sale",
+  stock: 50,
+  summary: "A great product to use as an example.",
+  specs: { material: "Moondust, Starglass, polyester", warranty: "200 years" },
+  images: [
+    { url: "https://example.com/image1.jpg", dimensions: "800x600", order: 0 },
+    { url: "https://example.com/image2.jpg", dimensions: "800x600", order: 1 },
+  ],
+  weight: { value: "1.2", unit: "kg" },
+  dimensions: { dimensions: "10.0x20.0x30.0", unit: "cm" },
+  categories: ["example", "mock"],
+  shippingOptions: [{ reference: "30406:abc123def4567890", extraCost: "5.00" }],
+};
+
+const staticPrivateKeys = [
+  "nsec1qqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqpl2sx",
+  "nsec1qqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq7az27",
+  "nsec1qqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqkzqx0",
+];
