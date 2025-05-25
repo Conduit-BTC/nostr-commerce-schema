@@ -10,6 +10,19 @@ import { ProductReviewSchema } from "./Review";
 import { ShippingOptionSchema } from "./ShippingOptionSchema";
 import { ShippingUpdateSchema } from "./ShippingUpdateSchema";
 
+export {
+  GeneralCommunicationSchema,
+  OrderSchema,
+  OrderStatusUpdateSchema,
+  PaymentRequestSchema,
+  ProductCollectionSchema,
+  ProductListingSchema,
+  PaymentReceiptSchema,
+  ProductReviewSchema,
+  ShippingOptionSchema,
+  ShippingUpdateSchema,
+};
+
 // Helper types for TypeScript
 export type ProductListing = z.infer<typeof ProductListingSchema>;
 export type ProductCollection = z.infer<typeof ProductCollectionSchema>;
@@ -22,53 +35,53 @@ export type GeneralCommunication = z.infer<typeof GeneralCommunicationSchema>;
 export type PaymentReceipt = z.infer<typeof PaymentReceiptSchema>;
 export type ProductReview = z.infer<typeof ProductReviewSchema>;
 export type OrderAddress = {
-    name: string | null;
-    street1: string | null;
-    street2: string | null;
-    city: string | null;
-    state: string | null;
-    country: string | null;
-    zip: string | null;
-    note: string | null;
+  name: string | null;
+  street1: string | null;
+  street2: string | null;
+  city: string | null;
+  state: string | null;
+  country: string | null;
+  zip: string | null;
+  note: string | null;
 };
 
 // Validation functions
 export const validateProductListing = (data: unknown) => {
-    return ProductListingSchema.safeParse(data);
+  return ProductListingSchema.safeParse(data);
 };
 
 export const validateProductCollection = (data: unknown) => {
-    return ProductCollectionSchema.safeParse(data);
+  return ProductCollectionSchema.safeParse(data);
 };
 
 export const validateShippingOption = (data: unknown) => {
-    return ShippingOptionSchema.safeParse(data);
+  return ShippingOptionSchema.safeParse(data);
 };
 
 export const validateOrder = (data: unknown) => {
-    return OrderSchema.safeParse(data);
+  return OrderSchema.safeParse(data);
 };
 
 export const validatePaymentRequest = (data: unknown) => {
-    return PaymentRequestSchema.safeParse(data);
+  return PaymentRequestSchema.safeParse(data);
 };
 
 export const validateOrderStatusUpdate = (data: unknown) => {
-    return OrderStatusUpdateSchema.safeParse(data);
+  return OrderStatusUpdateSchema.safeParse(data);
 };
 
 export const validateShippingUpdate = (data: unknown) => {
-    return ShippingUpdateSchema.safeParse(data);
+  return ShippingUpdateSchema.safeParse(data);
 };
 
 export const validateGeneralCommunication = (data: unknown) => {
-    return GeneralCommunicationSchema.safeParse(data);
+  return GeneralCommunicationSchema.safeParse(data);
 };
 
 export const validatePaymentReceipt = (data: unknown) => {
-    return PaymentReceiptSchema.safeParse(data);
+  return PaymentReceiptSchema.safeParse(data);
 };
 
 export const validateProductReview = (data: unknown) => {
-    return ProductReviewSchema.safeParse(data);
+  return ProductReviewSchema.safeParse(data);
 };
