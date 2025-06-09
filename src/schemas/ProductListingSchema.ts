@@ -54,11 +54,22 @@ const ProductSpecTagSchema = z.tuple([
     z.string() // value
 ]);
 
-const ProductImageTagSchema = z.tuple([
-    z.literal("image"),
-    z.string().url(), // URL
-    z.string().optional(), // Optional dimensions
-    z.string().regex(/^\d+(\.\d+)?$/, "Must be a string-wrapped number").optional() // Optional sorting order
+const ProductImageTagSchema = z.union([
+    z.tuple([
+        z.literal("image"),
+        z.string().url()
+    ]),
+    z.tuple([
+        z.literal("image"),
+        z.string().url(),
+        z.string()
+    ]),
+    z.tuple([
+        z.literal("image"),
+        z.string().url(),
+        z.string(),
+        z.string().regex(/^\d+$/, "Must be an integer string (order)")
+    ])
 ]);
 
 const ProductWeightTagSchema = z.tuple([
