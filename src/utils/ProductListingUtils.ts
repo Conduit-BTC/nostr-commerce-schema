@@ -40,8 +40,8 @@ export const ProductListingUtils = {
             .filter(tag => tag[0] === 'image')
             .map(tag => ({
                 url: tag[1],
-                dimensions: tag[2],
-                order: tag[3] ? parseInt(tag[3], 10) : undefined
+                dimensions: tag.length >= 3 ? tag[2] : undefined,
+                order: tag.length >= 4 ? parseInt(tag[3] as string, 10) : undefined
             }))
             .sort((a, b) => {
                 if (a.order !== undefined && b.order !== undefined) {
@@ -178,10 +178,10 @@ export const ProductListingUtils = {
         // Images
         if (data.images) {
             data.images.forEach(image => {
-                const imageTag = ['image', image.url];
+                const imageTag: string[] = ['image', image.url];
                 if (image.dimensions) imageTag.push(image.dimensions);
                 if (image.order !== undefined) imageTag.push(image.order.toString());
-                tags.push(imageTag);
+                tags.push(imageTag.slice(0, 4)); // ✅ Ensure max 4 elements
             });
         }
 
