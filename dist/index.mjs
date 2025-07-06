@@ -289,14 +289,22 @@ var ProductSpecTagSchema = z7.tuple([
   z7.string()
   // value
 ]);
-var ProductImageTagSchema = z7.tuple([
-  z7.literal("image"),
-  z7.string().url(),
-  // URL
-  z7.string().optional(),
-  // Optional dimensions
-  z7.string().regex(/^\d+(\.\d+)?$/, "Must be a string-wrapped number").optional()
-  // Optional sorting order
+var ProductImageTagSchema = z7.union([
+  z7.tuple([
+    z7.literal("image"),
+    z7.string().url()
+  ]),
+  z7.tuple([
+    z7.literal("image"),
+    z7.string().url(),
+    z7.string()
+  ]),
+  z7.tuple([
+    z7.literal("image"),
+    z7.string().url(),
+    z7.string(),
+    z7.string().regex(/^\d+$/, "Must be an integer string (order)")
+  ])
 ]);
 var ProductWeightTagSchema = z7.tuple([
   z7.literal("weight"),
@@ -693,8 +701,8 @@ var ProductListingUtils = {
   getProductImages: (event) => {
     return event.tags.filter((tag) => tag[0] === "image").map((tag) => ({
       url: tag[1],
-      dimensions: tag[2],
-      order: tag[3] ? parseInt(tag[3], 10) : void 0
+      dimensions: tag.length >= 3 ? tag[2] : void 0,
+      order: tag.length >= 4 ? parseInt(tag[3], 10) : void 0
     })).sort((a, b) => {
       if (a.order !== void 0 && b.order !== void 0) {
         return a.order - b.order;
@@ -786,7 +794,7 @@ var ProductListingUtils = {
         const imageTag = ["image", image.url];
         if (image.dimensions) imageTag.push(image.dimensions);
         if (image.order !== void 0) imageTag.push(image.order.toString());
-        tags.push(imageTag);
+        tags.push(imageTag.slice(0, 4));
       });
     }
     if (data.weight) {

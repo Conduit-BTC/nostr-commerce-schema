@@ -1,6 +1,6 @@
 {
   "name": "nostr-commerce-schema",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "description": "TypeScript types and Zod schemas for Nostr e-commerce",
   "author": "AceaSpades @ Conduit BTC",
   "main": "dist/index.js",

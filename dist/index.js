@@ -339,14 +339,22 @@ var ProductSpecTagSchema = import_zod7.z.tuple([
   import_zod7.z.string()
   // value
 ]);
-var ProductImageTagSchema = import_zod7.z.tuple([
-  import_zod7.z.literal("image"),
-  import_zod7.z.string().url(),
-  // URL
-  import_zod7.z.string().optional(),
-  // Optional dimensions
-  import_zod7.z.string().regex(/^\d+(\.\d+)?$/, "Must be a string-wrapped number").optional()
-  // Optional sorting order
+var ProductImageTagSchema = import_zod7.z.union([
+  import_zod7.z.tuple([
+    import_zod7.z.literal("image"),
+    import_zod7.z.string().url()
+  ]),
+  import_zod7.z.tuple([
+    import_zod7.z.literal("image"),
+    import_zod7.z.string().url(),
+    import_zod7.z.string()
+  ]),
+  import_zod7.z.tuple([
+    import_zod7.z.literal("image"),
+    import_zod7.z.string().url(),
+    import_zod7.z.string(),
+    import_zod7.z.string().regex(/^\d+$/, "Must be an integer string (order)")
+  ])
 ]);
 var ProductWeightTagSchema = import_zod7.z.tuple([
   import_zod7.z.literal("weight"),
@@ -743,8 +751,8 @@ var ProductListingUtils = {
   getProductImages: (event) => {
     return event.tags.filter((tag) => tag[0] === "image").map((tag) => ({
       url: tag[1],
-      dimensions: tag[2],
-      order: tag[3] ? parseInt(tag[3], 10) : void 0
+      dimensions: tag.length >= 3 ? tag[2] : void 0,
+      order: tag.length >= 4 ? parseInt(tag[3], 10) : void 0
     })).sort((a, b) => {
       if (a.order !== void 0 && b.order !== void 0) {
         return a.order - b.order;
@@ -836,7 +844,7 @@ var ProductListingUtils = {
         const imageTag = ["image", image.url];
         if (image.dimensions) imageTag.push(image.dimensions);
         if (image.order !== void 0) imageTag.push(image.order.toString());
-        tags.push(imageTag);
+        tags.push(imageTag.slice(0, 4));
       });
     }
     if (data.weight) {
